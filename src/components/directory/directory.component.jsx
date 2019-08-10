@@ -48,8 +48,19 @@ class Directory extends React.Component {
         return (
             <div className="directory-menu">
                 {
-                    this.state.sections.map(({title, imageUrl, id, size}) => (                        
+                    // antes del spred operator
+                    /* this.state.sections.map(({title, imageUrl, id, size}) => (                        
                         <MenuItem key={id} title={title} imageUrl={imageUrl} size={size} />
+                    )) */
+
+                    // Despues del spread operatos
+                    /**
+                     * El id de queda pq es el unico que no tiene el mismo nombre que la propiedad
+                     * Los demas valores tienen el mismo nombre de la propiedad pasada al
+                     * componente por eso se utiliza el spread operator.
+                     */
+                    this.state.sections.map(({id, ...otherProps}) => (
+                        <MenuItem key={id} {...otherProps }/>
                     ))
                 }
             </div>
