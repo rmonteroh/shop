@@ -6,7 +6,7 @@ import ShopPage from './pages/shop/shop.component';
 import Header from './components/header/header.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
 
-import {auth} from './firebase/firebase.utils';
+import {auth,createUserProfilDocument } from './firebase/firebase.utils';
 
 import {Switch, Route} from 'react-router-dom';
 
@@ -23,8 +23,19 @@ class App extends React.Component {
   unsubscribeFormAuth = null;
 
   componentDidMount(){
-    this.unsubscribeFormAuth = auth.onAuthStateChanged(user => {
-      this.setState({currentUser: user});      
+    this.unsubscribeFormAuth = auth.onAuthStateChanged(async userAuth => {
+      if (userAuth) {
+        const userRef = await createUserProfilDocument(userAuth);
+        userRef.onSnapshot(snapShot => {
+          this.setState({
+            currentUser:{
+              id:snapShot.id,
+              ...snapShot.data()
+            }
+          });
+        })
+      }
+      
     })
   }
 
@@ -32,6 +43,8 @@ class App extends React.Component {
     // Close the subscription to firebase, evit memory leaks.
     this.unsubscribeFormAuth();
   }
+
+
 
   render(){ 
     return (
