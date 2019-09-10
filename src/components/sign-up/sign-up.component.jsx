@@ -14,7 +14,7 @@ class SignUp extends React.Component {
             displayName: '',
             email:'',
             password:'',
-            confiirmPassword:''
+            confirmPassword:''
         }
     }
 
@@ -33,7 +33,7 @@ class SignUp extends React.Component {
                 displayName: '',
                 email:'',
                 password:'',
-                confiirmPassword:''
+                confirmPassword:''
             });
         } catch (error) {
             console.log(error);
@@ -42,13 +42,14 @@ class SignUp extends React.Component {
     }
 
     handleChange = (event) => {
+        
         const {value, name} =event.target;
         this.setState({[name]: value})
     }
 
     render() 
     {
-        const {displayName, email, password,confirmPassword} = this.state;
+        const {displayName, email, password, confirmPassword} = this.state;
     return(
         <div className='sign-up'>
             <h2 className='title'>I do not have an account</h2>
@@ -82,10 +83,10 @@ class SignUp extends React.Component {
                 <FormInput 
                     label="Confirm password"
                     type="password"
-                    name="Confirm password"
-                    value=''
+                    name="confirmPassword"
+                    value={confirmPassword}
                     handleChange={this.handleChange}
-                    required
+                   required
                 />
             
                 
