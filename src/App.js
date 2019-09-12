@@ -8,15 +8,13 @@ import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up
 
 import {auth,createUserProfilDocument } from './firebase/firebase.utils';
 
-import {Switch, Route} from 'react-router-dom';
+import {Switch, Route, Redirect} from 'react-router-dom';
 
 /* REDUX */
 import {connect} from 'react-redux';
 import {setCurrentUser} from './redux/user/user.actions';
 
-
-class App extends React.Component {
-  
+class App extends React.Component {  
 
   unsubscribeFormAuth = null;
 
@@ -44,8 +42,6 @@ class App extends React.Component {
     this.unsubscribeFormAuth();
   }
 
-
-
   render(){ 
     return (
     <div className="App">
@@ -53,14 +49,22 @@ class App extends React.Component {
       <Switch>
         <Route exact path='/' component={HomePage}></Route>
         <Route exact path='/shop' component={ShopPage}></Route>
-        <Route exact path='/sign-in' component={SignInAndSignUpPage}></Route>
+        <Route exact path='/sign-in' render={()=> 
+          this.props.currentUser ?
+          (<Redirect to='/' />) :
+          (<SignInAndSignUpPage />) 
+        }></Route>
       </Switch>
     </div>
   )};
 }
 
+const mapStateToProps = ({user}) => ({
+  currentUser: user.currentUser
+})
+
 const mapDispatchToProps = (dispatch) => ({
   setCurrentUser: user => dispatch(setCurrentUser(user))
 });
 
-export default connect(null,mapDispatchToProps)(App);
+export default connect(mapStateToProps,mapDispatchToProps)(App);
