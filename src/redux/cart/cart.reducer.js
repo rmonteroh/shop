@@ -1,5 +1,6 @@
 const INITIAL_STATE ={
-    hidden: true
+    hidden: true,
+    cartItems:[]
 }
 
 const cartReducer = (state=INITIAL_STATE, action) => {
@@ -10,6 +11,12 @@ const cartReducer = (state=INITIAL_STATE, action) => {
                 hidden: !state.hidden
             }
             break;
+        case 'ADD_ITEM':
+                return {
+                    ...state,
+                    cartItems: [...state.cartItems, action.payload]
+                }
+                break;
     
         default:
             return state
