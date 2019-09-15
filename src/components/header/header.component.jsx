@@ -10,6 +10,9 @@ import {connect} from 'react-redux'
 
 import {auth} from '../../firebase/firebase.utils';
 import CartDropdown from '../cart-dropdown/cart-dropdown.component'
+import { selectCurrentUser } from '../../redux/user/user.selectors';
+import { selectCartHidden } from '../../redux/cart/cart.selectors';
+import {createStructuredSelector} from 'reselect'
 
 const Header = ({currentUser, hidden})=>{
     console.log('hidden',hidden);
@@ -37,9 +40,17 @@ const Header = ({currentUser, hidden})=>{
     )
 }
 
-const mapStateToProps = state => ({
-    currentUser: state.user.currentUser,
-    hidden: state.cart.hidden
+// Utilizando selectores
+/* const mapStateToProps = state => ({
+    currentUser: selectCurrentUser(state),
+    hidden: selectCartHidden(state)
+}) */
+
+// Utilizando createStructuredSelector cuando tenemos muchos selectores, de esta manera no hay que pasarle
+// el state ya que createStructuredSelector se encarga de obtener el state general y pasarselo a cada selector.
+const mapStateToProps = createStructuredSelector({
+    currentUser: selectCurrentUser,
+    hidden: selectCartHidden
 })
 
 
