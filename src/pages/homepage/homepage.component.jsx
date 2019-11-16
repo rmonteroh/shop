@@ -1,11 +1,18 @@
 import React from 'react';
+import {HomePageContainer} from './homepage.styles'
 import './homepage.styles.scss';
 import Directory from '../../components/directory/directory.component'
 
 const HomePage = () => (
-    <div className="homepage">
+    // Antes de utilizar styled-components
+    /* <div className="homepage">
         <Directory />
-    </div>
+    </div> */
+    //Despues de utillizar styled-components
+
+    <HomePageContainer>
+        <Directory />
+    </HomePageContainer>
 )
 
 export default HomePage;
